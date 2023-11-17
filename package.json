@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@googlemaps/google-maps-services-js": "^3.3.41",
+    "@googlemaps/js-api-loader": "^1.16.2",
+    "mongodb": "^6.3.0",
     "next": "14.0.2",
     "next-auth": "^4.24.5",
     "react": "^18",
