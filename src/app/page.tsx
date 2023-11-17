@@ -1,7 +1,7 @@
-import Image from 'next/image'
 import styles from './page.module.css'
+import Map from './components/Map'
 
-export default function Home() {
+export default function Page() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -9,22 +9,10 @@ export default function Home() {
          CitySats.com
         </h1>
         <div>
-          <a
-            href="https://github.com/James-Sangalli/CitySats"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/github-mark.svg"
-              alt="GitHub Logo"
-              className={styles.vercelLogo}
-              width={40}
-              height={40}
-              priority
-            />
-          </a>
+          <h3>Buy/sell bitcoin face to face, anon & with cash</h3>
         </div>
       </div>
+      <Map/>
 
       <div className={styles.grid}>
         <a
@@ -58,7 +46,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2>
-            Safety <span>-&gt;</span>
+            Safety & Rules <span>-&gt;</span>
           </h2>
           <p>Learn how to keep yourself safe when buying/selling bitcoin with users on the site.</p>
         </a>
