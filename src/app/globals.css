@@ -102,3 +102,8 @@ a {
     color-scheme: dark;
   }
 }
+
+
+#faq, #safety {
+  /*margin: 5vw;*/
+}
