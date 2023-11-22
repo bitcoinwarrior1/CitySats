@@ -7,10 +7,16 @@ export interface Contact {
     signal?: string;
 }
 
+export interface AuthData {
+    name: string;
+    picture: string;
+    email: string;
+}
+
 export interface Profile {
     lat?: Number;
     lng?: Number;
-    _id: ObjectId;
+    _id?: ObjectId;
     buyer?: boolean;
     seller?: boolean;
     picture?: string;
@@ -18,6 +24,7 @@ export interface Profile {
     contact?: Contact;
     bio?: string;
     markerImagePath?: string;
+    username: string;
 }
 
 export interface Review {

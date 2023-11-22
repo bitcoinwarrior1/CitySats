@@ -1,12 +1,25 @@
 import { ObjectId } from 'bson';
-import { Profile } from '../../components/profile';
-import {getProfileCollection} from "./connect";
+import { AuthData, Contact, Profile, Review } from '../../components/profile';
+import { getProfileCollection } from './connect';
 
 export const getProfileById = async (_id: string) => {
     try {
         const userCollection = await getProfileCollection();
         const data = await userCollection.findOne<Profile>({
             _id: new ObjectId(_id)
+        });
+
+        return { data };
+    } catch (error) {
+        return { error };
+    }
+};
+
+export const getProfileByUsername = async (username: string) => {
+    try {
+        const userCollection = await getProfileCollection();
+        const data = await userCollection.findOne<Profile>({
+            username
         });
 
         return { data };
@@ -33,4 +46,18 @@ export const saveProfileToDb = async (profile: Profile) => {
     } catch (e) {
         return { error: e };
     }
+};
+
+export const saveProfileOnAuth = async (authData: AuthData) => {
+    const { picture, email, name } = authData;
+    const { error, data: dbProfile } = await getProfileByUsername(name);
+    if (error) return { error };
+    if (dbProfile?.username) return { data: 'user already exists' };
+    const profile = {
+        username: name,
+        picture,
+        contact: { email }
+    };
+
+    return saveProfileToDb(profile);
 };
