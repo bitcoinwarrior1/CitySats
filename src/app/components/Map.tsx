@@ -1,25 +1,32 @@
 'use client';
 import GoogleMap from 'google-maps-react-markers';
 import { coordinates, Marker } from './Marker';
+import { useEffect, useState } from "react";
 
 const mapContainerStyle = {
     width: '90vw',
     height: '85vw',
-    'margin-top': '1%',
-    'margin-bottom': '1%'
-};
-
-const center = {
-    lat: -33.865143, // Set your default latitude
-    lng: 151.2099 // Set your default longitude
+    marginTop: '1%',
+    marginBottom: '1%'
 };
 
 const Map = ({}) => {
+    const [location, setLocation] = useState({
+        lat: 0,
+        lng: 0,
+    });
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position: { coords: { latitude: number; longitude: number; }; }) => {
+            setLocation({ lat: position.coords.latitude, lng: position.coords.longitude })
+        })
+    }, [location])
+
     return (
         <div id={'map'}>
             <GoogleMap
                 apiKey={'AIzaSyAQWSnntCOZdRP6hAKv2wR9nLGwOv69BZ0'}
-                defaultCenter={center}
+                defaultCenter={location}
                 defaultZoom={12}
                 style={mapContainerStyle}
             >
