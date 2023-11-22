@@ -12,8 +12,8 @@ const mapContainerStyle = {
 
 const Map = ({}) => {
     const [location, setLocation] = useState({
-        lat: 0,
-        lng: 0,
+        lat: -33.86,
+        lng: 151.21,
     });
 
     useEffect(() => {
