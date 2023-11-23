@@ -5,7 +5,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import TwitterProvider from 'next-auth/providers/twitter';
 import LinkedInProvider from 'next-auth/providers/linkedin';
 import RedditProvider from 'next-auth/providers/reddit';
-import { saveProfileOnAuth } from '../../../app/api/users/profile';
+import { saveProfileOnAuth } from '../../../app/db/users/profile';
 
 export const authOptions = {
     providers: [
