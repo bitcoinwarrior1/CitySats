@@ -4,7 +4,7 @@ import styles from '../page.module.css';
 import Description from '../components/description';
 import Grid from '../components/grid';
 import LoginBtn from '../components/login-btn';
-import {useSession} from "next-auth/react";
+import { useSession } from 'next-auth/react';
 
 export default function Page() {
     // TODO
@@ -18,7 +18,11 @@ export default function Page() {
             <main className={styles.main}>
                 <Description />
                 <div id={'profileDetails'}>
-                    <input type={'text'} placeholder={'username'} id={'username'}/>
+                    <input
+                        type={'text'}
+                        placeholder={'username'}
+                        id={'username'}
+                    />
                     <button id={'updateLocation'}>Update your location</button>
                     <p id={'rating'}>Your rating: 5 stars (20 reviewers)</p>
                     <fieldset>

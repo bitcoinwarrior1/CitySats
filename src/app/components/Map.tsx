@@ -1,7 +1,7 @@
 'use client';
 import GoogleMap from 'google-maps-react-markers';
 import { coordinates, Marker } from './Marker';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const mapContainerStyle = {
     width: '90vw',
@@ -13,14 +13,19 @@ const mapContainerStyle = {
 const Map = ({}) => {
     const [location, setLocation] = useState({
         lat: -33.86,
-        lng: 151.21,
+        lng: 151.21
     });
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position: { coords: { latitude: number; longitude: number; }; }) => {
-            setLocation({ lat: position.coords.latitude, lng: position.coords.longitude })
-        })
-    }, [location])
+        navigator.geolocation.getCurrentPosition(
+            (position: { coords: { latitude: number; longitude: number } }) => {
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+            }
+        );
+    }, [location]);
 
     return (
         <div id={'map'}>

@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { profile, setSession } from './userService';
-import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { getServerSession } from 'next-auth';
+import { setSession, update } from './userService';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    return profile();
+    return update(req);
 }
 
 // @ts-ignore

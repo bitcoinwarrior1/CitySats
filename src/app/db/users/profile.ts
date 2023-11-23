@@ -28,6 +28,19 @@ export const getProfileByUsername = async (username: string) => {
     }
 };
 
+export const getProfileByEmail = async (email: string | null | undefined) => {
+    try {
+        const userCollection = await getProfileCollection();
+        const data = await userCollection.findOne<Profile>({
+            email
+        });
+
+        return { data };
+    } catch (error) {
+        return { error };
+    }
+};
+
 export const saveProfileToDb = async (profile: Profile) => {
     try {
         const profileCollection = await getProfileCollection();
