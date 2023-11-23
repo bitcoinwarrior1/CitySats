@@ -12,9 +12,10 @@ const mapContainerStyle = {
 
 const Map = ({}) => {
     const [location, setLocation] = useState({
-        lat: -33.86,
-        lng: 151.21
+        lat: 0,
+        lng: 0
     });
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -23,31 +24,34 @@ const Map = ({}) => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 });
+                setLoading(false);
             }
         );
-    }, [location]);
+    }, []);
 
     return (
         <div id={'map'}>
-            <GoogleMap
-                apiKey={'AIzaSyAQWSnntCOZdRP6hAKv2wR9nLGwOv69BZ0'}
-                defaultCenter={location}
-                defaultZoom={12}
-                style={mapContainerStyle}
-            >
-                {coordinates.map((data, index) => (
-                    <Marker
-                        key={index}
-                        lat={data.lat}
-                        lng={data.lng}
-                        markerId={data.markerId}
-                        onClick={data.onClick}
-                        buyer={data.buyer}
-                        seller={data.seller}
-                        image={data.image}
-                    ></Marker>
-                ))}
-            </GoogleMap>
+            {!loading && (
+                <GoogleMap
+                    apiKey={'AIzaSyAQWSnntCOZdRP6hAKv2wR9nLGwOv69BZ0'}
+                    defaultCenter={location}
+                    defaultZoom={12}
+                    style={mapContainerStyle}
+                >
+                    {coordinates.map((data, index) => (
+                        <Marker
+                            key={index}
+                            lat={data.lat}
+                            lng={data.lng}
+                            markerId={data.markerId}
+                            onClick={data.onClick}
+                            buyer={data.buyer}
+                            seller={data.seller}
+                            image={data.image}
+                        ></Marker>
+                    ))}
+                </GoogleMap>
+            )}
         </div>
     );
 };
