@@ -3,68 +3,85 @@ import {
     getProfileById,
     saveProfileToDb
 } from '../../../app/db/users/profile';
-import { NextApiRequest } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]';
 
-// TODO make sure that the session is validated and cannot be forged (might need to store and pass the jwt from oAuth)
-// TODO  get user profiles by location
-let session: any;
+export async function handleProfile(req: NextApiRequest, res: NextApiResponse) {
+    // Retrieve the session from the request context
+    const session = await getServerSession(req, res, authOptions);
 
-export const setSession = (currentSession: any) => {
-    session = currentSession;
-};
-export const profile = async () => {
-    if (session) {
-        const { error: dbError, data: dbProfile } = await getProfileByEmail(
-            session.user?.email
-        );
-        if (dbError) return { error: dbError };
-        return { data: dbProfile, status: 200 };
-    } else {
-        return { error: 'unauthorised', status: 401 };
+    // Check if the user is authenticated
+    if (!session) {
+        return res.status(401).json({ error: 'unauthorised' });
     }
-};
 
-export const update = async (req: NextApiRequest) => {
+    // Fetch the user's profile from the database
+    const { error: dbError, data: dbProfile } = await getProfileByEmail(
+        session.user?.email
+    );
+
+    // Handle database errors
+    if (dbError) {
+        return res.status(500).json({ error: dbError });
+    }
+
+    // Return the profile data or an error message
+    return res.status(200).json({ data: dbProfile });
+}
+
+export const updateHandler = async (
+    req: NextApiRequest,
+    res: NextApiResponse
+) => {
+    // Retrieve the session from the request context
+    const session = await getServerSession(req, res, authOptions);
+
     if (session) {
         const { error: dbError, data: dbProfile } = await getProfileByEmail(
             session.user?.email
         );
-        if (dbError) return { error: dbError, status: 400 };
+        if (dbError) return res.status(400).json({ error: dbError });
 
         const { profile } = req.body.params;
-        if (!profile) return { error: 'No profile info provided', status: 400 };
+        if (!profile)
+            return res.status(400).json({ error: 'No profile info provided' });
         const { error: dbSaveError } = await saveProfileToDb(profile);
-        if (dbSaveError) return { error: dbSaveError, status: 500 };
+        if (dbSaveError) return res.status(500).json({ error: dbSaveError });
 
-        return { data: 'profile updated', status: 200 };
+        return res.status(200).json({ data: 'profile updated' });
     } else {
-        return { error: 'unauthorised', status: 401 };
+        return res.status(401).json({ error: 'unauthorised' });
     }
 };
 
-export const review = async (req: NextApiRequest) => {
-    if (session) {
-        const { error: dbError, data: dbProfile } = await getProfileByEmail(
-            session.user?.email
-        );
-        if (dbError) return { error: dbError };
+export const reviewHandler = async (
+    req: NextApiRequest,
+    res: NextApiResponse
+) => {
+    // Retrieve the session from the request context
+    const session = await getServerSession(req, res, authOptions);
 
-        const { rating, ratedProfileId, review } = req.body.params;
-        if (!rating) return { error: 'No rating provided', status: 400 };
-        if (!ratedProfileId)
-            return { error: 'No profile provided', status: 400 };
-        const { error: dbRatedProfileError, data: ratedDbProfile } =
-            await getProfileById(ratedProfileId);
-        if (dbRatedProfileError)
-            return { error: dbRatedProfileError, status: 500 };
-        if (!ratedDbProfile)
-            return { error: 'rated profile does not exist', status: 200 };
-        ratedDbProfile?.reviews?.push(review);
-        const { error: dbSaveError } = await saveProfileToDb(ratedDbProfile);
-        if (dbSaveError) return { error: dbSaveError, status: 500 };
+    if (!session) return res.status(401).json({ error: 'unauthorised' });
 
-        return { data: 'profile updated', status: 200 };
-    } else {
-        return { error: 'unauthorised', status: 401 };
-    }
+    const { error: dbError, data: dbProfile } = await getProfileByEmail(
+        session.user?.email
+    );
+    if (dbError) return res.status(500).json({ error: dbError });
+
+    const { rating, ratedProfileId, review } = req.body.params;
+    if (!rating) return res.status(400).json({ error: 'No rating provided' });
+    if (!ratedProfileId)
+        return res.status(400).json({ error: 'No profile provided' });
+    const { error: dbRatedProfileError, data: ratedDbProfile } =
+        await getProfileById(ratedProfileId);
+    if (dbRatedProfileError)
+        return res.status(500).json({ error: dbRatedProfileError });
+    if (!ratedDbProfile)
+        return res.status(400).json({ error: 'rated profile does not exist' });
+    ratedDbProfile?.reviews?.push(review);
+    const { error: dbSaveError } = await saveProfileToDb(ratedDbProfile);
+    if (dbSaveError) return res.status(500).json({ error: dbSaveError });
+
+    return res.status(200).json({ data: 'profile updated' });
 };
