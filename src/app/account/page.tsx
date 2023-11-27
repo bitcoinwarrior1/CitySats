@@ -6,11 +6,33 @@ import Grid from '../components/grid';
 import LoginBtn from '../components/login-btn';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { Profile } from '../components/profile';
+
+const emptyProfile: Profile = {
+    username: ''
+};
 
 export default function Page() {
     const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
-    const [profileData, setProfileData] = useState({});
+    const [profileData, setProfileData] = useState(emptyProfile);
+
+    const updateProfile = () => {
+        return fetch('http://localhost:3000/api/user/update', {
+            method: 'POST',
+            body: JSON.stringify(profileData)
+        });
+    };
+
+    const setLocation = () => {
+        navigator.geolocation.getCurrentPosition(
+            (position: { coords: { latitude: number; longitude: number } }) => {
+                profileData.lat = position.coords.latitude;
+                profileData.lng = position.coords.longitude;
+                setProfileData(profileData);
+            }
+        );
+    };
 
     useEffect(() => {
         // TODO get the host dynamically
@@ -21,8 +43,8 @@ export default function Page() {
                 credentials: 'include'
             })
                 .then((response) => {
-                    console.log(response);
-                    setProfileData(response.json);
+                    // TODO
+                    setProfileData(response.json as unknown as Profile);
                     setLoading(false);
                 })
                 .catch(console.error);
@@ -49,8 +71,10 @@ export default function Page() {
                         placeholder={'username'}
                         id={'username'}
                     />
-                    <button id={'updateLocation'}>Update your location</button>
-                    <p id={'rating'}>Your rating: 5 stars (20 reviewers)</p>
+                    <button id={'setLocation'} onClick={setLocation}>
+                        Set your location
+                    </button>
+                    <p id={'rating'}>Your rating:</p>
                     <fieldset>
                         <legend>Type:</legend>
                         <div>
@@ -62,7 +86,9 @@ export default function Page() {
                             <label htmlFor="seller">Seller</label>
                         </div>
                     </fieldset>
-                    <button id={'update'}>Update details</button>
+                    <button id={'update'} onClick={updateProfile}>
+                        Update details
+                    </button>
                 </div>
             )}
             <LoginBtn />
