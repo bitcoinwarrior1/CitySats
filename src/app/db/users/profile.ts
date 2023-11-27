@@ -32,7 +32,7 @@ export const getProfileByEmail = async (email: string | null | undefined) => {
     try {
         const userCollection = await getProfileCollection();
         const data = await userCollection.findOne<Profile>({
-            email
+            'contact.email': email
         });
 
         return { data };
