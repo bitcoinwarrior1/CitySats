@@ -8,6 +8,7 @@ import RedditProvider from 'next-auth/providers/reddit';
 import { saveProfileOnAuth } from '../../../app/db/users/profile';
 
 export const authOptions = {
+    secret: process.env.NEXTAUTH_SECRET ?? '',
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID ?? '',
