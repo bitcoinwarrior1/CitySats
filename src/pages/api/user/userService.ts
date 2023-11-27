@@ -49,7 +49,7 @@ export async function nearbyProfilesHandler(
 
     if (dbError) return res.status(500).json({ error: dbError });
 
-    return res.status(200).json({ body: profiles });
+    return res.status(200).json({ data: profiles });
 }
 
 export const updateHandler = async (

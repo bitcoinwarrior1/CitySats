@@ -1,6 +1,6 @@
 'use client';
 import GoogleMap from 'google-maps-react-markers';
-import { coordinates, Marker } from './Marker';
+import { Marker } from './Marker';
 import { useEffect, useState } from 'react';
 
 const mapContainerStyle = {
@@ -16,6 +16,7 @@ const Map = ({}) => {
         lng: 0
     });
     const [loading, setLoading] = useState(true);
+    const [profilesNearby, setProfilesNearby] = useState(Array());
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -24,7 +25,17 @@ const Map = ({}) => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 });
-                setLoading(false);
+                fetch(
+                    `http://localhost:3000/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`
+                )
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((jsonData) => {
+                        setProfilesNearby(jsonData.data);
+                        setLoading(false);
+                    })
+                    .catch(console.error);
             }
         );
     }, []);
@@ -38,7 +49,7 @@ const Map = ({}) => {
                     defaultZoom={12}
                     style={mapContainerStyle}
                 >
-                    {coordinates.map((data, index) => (
+                    {profilesNearby.map((data, index) => (
                         <Marker
                             key={index}
                             lat={data.lat}
