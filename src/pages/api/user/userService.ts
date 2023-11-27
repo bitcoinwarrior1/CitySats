@@ -1,13 +1,17 @@
 import {
     getProfileByEmail,
     getProfileById,
+    getProfilesByLocation,
     saveProfileToDb
 } from '../../../app/db/users/profile';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 
-export async function handleProfile(req: NextApiRequest, res: NextApiResponse) {
+export async function profileHandler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     // Retrieve the session from the request context
     const session = await getServerSession(req, res, authOptions);
 
@@ -28,6 +32,24 @@ export async function handleProfile(req: NextApiRequest, res: NextApiResponse) {
 
     // Return the profile data or an error message
     return res.status(200).json({ data: dbProfile });
+}
+
+export async function nearbyProfilesHandler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
+    const { lat, lng } = req.query;
+    if (!lat || !lng)
+        return res.status(400).json({ error: 'Coordinates not provided' });
+
+    const { error: dbError, data: profiles } = await getProfilesByLocation(
+        lat as unknown as number,
+        lng as unknown as number
+    );
+
+    if (dbError) return res.status(500).json({ error: dbError });
+
+    return res.status(200).json({ body: profiles });
 }
 
 export const updateHandler = async (

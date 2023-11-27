@@ -41,6 +41,27 @@ export const getProfileByEmail = async (email: string | null | undefined) => {
     }
 };
 
+export const getProfilesByLocation = async (lat: number, lng: number) => {
+    try {
+        const profileCollection = await getProfileCollection();
+        const query = {
+            lat: { $gt: lat - 1, $lt: lat + 1 },
+            lng: { $gt: lng - 1, $lt: lng + 1 }
+        };
+        const cursor = profileCollection.find(query);
+
+        const profiles = [];
+
+        for await (const d of cursor) {
+            profiles.push(d);
+        }
+
+        return { data: profiles };
+    } catch (e) {
+        return { error: e };
+    }
+};
+
 export const saveProfileToDb = async (profile: Profile) => {
     try {
         const profileCollection = await getProfileCollection();

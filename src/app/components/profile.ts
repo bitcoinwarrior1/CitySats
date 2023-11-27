@@ -14,8 +14,8 @@ export interface AuthData {
 }
 
 export interface Profile {
-    lat?: Number;
-    lng?: Number;
+    lat?: number;
+    lng?: number;
     _id?: ObjectId;
     buyer?: boolean;
     seller?: boolean;
@@ -28,6 +28,6 @@ export interface Profile {
 }
 
 export interface Review {
-    star: Number;
+    star: number;
     comment?: string;
 }
