@@ -18,7 +18,7 @@ export default function Page() {
     const [profileData, setProfileData] = useState(emptyProfile);
 
     const updateProfile = () => {
-        return fetch('http://localhost:3000/api/user/update', {
+        return fetch(`${window.location.origin}/api/user/update`, {
             method: 'POST',
             body: JSON.stringify(profileData)
         });
@@ -38,16 +38,15 @@ export default function Page() {
     };
 
     useEffect(() => {
-        // TODO get the host dynamically
         if (session) {
-            fetch('http://localhost:3000/api/user/profile', {
+            fetch(`${window.location.origin}/api/user/profile`, {
                 credentials: 'include'
             })
                 .then((response) => {
                     return response.json();
                 })
                 .then((jsonBody) => {
-                    setProfileData(jsonBody as unknown as Profile);
+                    setProfileData(jsonBody.data);
                     setLoading(false);
                 })
                 .catch(console.error);

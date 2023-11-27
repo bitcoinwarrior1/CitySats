@@ -26,7 +26,7 @@ const Map = ({}) => {
                     lng: position.coords.longitude
                 });
                 fetch(
-                    `http://localhost:3000/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`
+                    `${window.location.origin}/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`
                 )
                     .then((response) => {
                         return response.json();

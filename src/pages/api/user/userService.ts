@@ -64,8 +64,7 @@ export const updateHandler = async (
             session.user?.email
         );
         if (dbError) return res.status(400).json({ error: dbError });
-
-        const { profile } = req.body.params;
+        const profile = JSON.parse(req.body);
         if (!profile)
             return res.status(400).json({ error: 'No profile info provided' });
         const { error: dbSaveError } = await saveProfileToDb(profile);
