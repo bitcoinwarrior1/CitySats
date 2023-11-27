@@ -29,6 +29,9 @@ export default function Page() {
             (position: { coords: { latitude: number; longitude: number } }) => {
                 profileData.lat = position.coords.latitude;
                 profileData.lng = position.coords.longitude;
+                // @ts-ignore
+                document.getElementById('location').innerText =
+                    `lat: ${position.coords.latitude}, long: ${position.coords.longitude}`;
                 setProfileData(profileData);
             }
         );
@@ -37,14 +40,14 @@ export default function Page() {
     useEffect(() => {
         // TODO get the host dynamically
         if (session) {
-            console.log('useEffect session', session);
-            // TODO cannot get auth data from server side
             fetch('http://localhost:3000/api/user/profile', {
                 credentials: 'include'
             })
                 .then((response) => {
-                    // TODO
-                    setProfileData(response.json as unknown as Profile);
+                    return response.json();
+                })
+                .then((jsonBody) => {
+                    setProfileData(jsonBody as unknown as Profile);
                     setLoading(false);
                 })
                 .catch(console.error);
@@ -66,17 +69,23 @@ export default function Page() {
             <Description />
             {!loading && (
                 <div id={'profileDetails'}>
-                    <input
-                        type={'text'}
-                        placeholder={'username'}
-                        id={'username'}
-                    />
+                    <p>{`Your username: ${session.user?.name}`}</p>
+                    <br></br>
                     <button id={'setLocation'} onClick={setLocation}>
                         Set your location
                     </button>
-                    <p id={'rating'}>Your rating:</p>
+                    <br></br>
+                    <p id={'location'}></p>
+                    <br></br>
+                    <p id={'rating'}>
+                        Your ratings:{' '}
+                        {profileData.reviews?.map((r) => {
+                            return r.toString();
+                        })}
+                    </p>
+                    <br></br>
                     <fieldset>
-                        <legend>Type:</legend>
+                        <legend>Profile type:</legend>
                         <div>
                             <input type="radio" id="buyer" value="buyer" />
                             <label htmlFor="buyer">Buyer</label>
@@ -86,6 +95,7 @@ export default function Page() {
                             <label htmlFor="seller">Seller</label>
                         </div>
                     </fieldset>
+                    <br></br>
                     <button id={'update'} onClick={updateProfile}>
                         Update details
                     </button>
