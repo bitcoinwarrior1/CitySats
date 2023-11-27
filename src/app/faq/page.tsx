@@ -36,6 +36,13 @@ export default function Page() {
                 <h4>What are your fees?</h4>
                 <br></br>
                 <p>Using this site is completely free.</p>
+                <br></br>
+                <h4>Is this website opensource?</h4>
+                <br></br>
+                <p>
+                    Yes, you can find the code here:
+                    https://github.com/James-Sangalli/CitySats.
+                </p>
             </div>
             <Grid />
         </main>
