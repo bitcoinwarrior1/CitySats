@@ -44,8 +44,8 @@ export async function nearbyProfilesHandler(
         return res.status(400).json({ error: 'Coordinates not provided' });
 
     const { error: dbError, data: profiles } = await getProfilesByLocation(
-        lat as unknown as number,
-        lng as unknown as number
+        parseFloat(lat as string),
+        parseFloat(lng as string)
     );
 
     if (dbError) return res.status(500).json({ error: dbError });
@@ -80,11 +80,11 @@ export const updateHandler = async (
 
 const setMarkerImage = (profile: Profile) => {
     if (profile.buyer && profile.seller) {
-        profile.markerImagePath = 'buyer';
-    } else if (!profile.buyer && profile.seller) {
-        profile.markerImagePath = 'seller';
+        profile.markerImagePath = 'buyerAndSeller.jpeg';
+    } else if (profile.seller) {
+        profile.markerImagePath = 'seller.png';
     } else {
-        profile.markerImagePath = 'buyerAndSeller';
+        profile.markerImagePath = 'buyer.png';
     }
 };
 

@@ -25,9 +25,8 @@ const Map = ({}) => {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 });
-                fetch(
-                    `${window.location.origin}/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`
-                )
+                const query = `${window.location.origin}/api/user/nearbyProfiles?lat=${position.coords.latitude}&lng=${position.coords.longitude}`;
+                fetch(query)
                     .then((response) => {
                         return response.json();
                     })
@@ -50,7 +49,7 @@ const Map = ({}) => {
                     style={mapContainerStyle}
                 >
                     {profilesNearby.map((profile: Profile, index) => (
-                        <a onClick={() => alert(profile.buyer)} key={index}>
+                        <a onClick={() => alert(profile.bio)} key={index}>
                             <img
                                 src={profile.markerImagePath}
                                 width={'25px'}
