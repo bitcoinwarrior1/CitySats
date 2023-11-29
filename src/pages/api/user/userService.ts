@@ -7,6 +7,7 @@ import {
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { Profile } from '../../../app/components/profile';
 
 export async function profileHandler(
     req: NextApiRequest,
@@ -67,12 +68,23 @@ export const updateHandler = async (
         const profile = JSON.parse(req.body);
         if (!profile)
             return res.status(400).json({ error: 'No profile info provided' });
+        setMarkerImage(profile);
         const { error: dbSaveError } = await saveProfileToDb(profile);
         if (dbSaveError) return res.status(500).json({ error: dbSaveError });
 
         return res.status(200).json({ data: 'profile updated' });
     } else {
         return res.status(401).json({ error: 'unauthorised' });
+    }
+};
+
+const setMarkerImage = (profile: Profile) => {
+    if (profile.buyer && profile.seller) {
+        profile.markerImagePath = 'buyer';
+    } else if (!profile.buyer && profile.seller) {
+        profile.markerImagePath = 'seller';
+    } else {
+        profile.markerImagePath = 'buyerAndSeller';
     }
 };
 

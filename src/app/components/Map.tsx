@@ -1,7 +1,7 @@
 'use client';
 import GoogleMap from 'google-maps-react-markers';
-import { Marker } from './Marker';
 import { useEffect, useState } from 'react';
+import { Profile } from './profile';
 
 const mapContainerStyle = {
     width: '90vw',
@@ -49,17 +49,15 @@ const Map = ({}) => {
                     defaultZoom={12}
                     style={mapContainerStyle}
                 >
-                    {profilesNearby.map((data, index) => (
-                        <Marker
-                            key={index}
-                            lat={data.lat}
-                            lng={data.lng}
-                            markerId={data.markerId}
-                            onClick={data.onClick}
-                            buyer={data.buyer}
-                            seller={data.seller}
-                            image={data.image}
-                        ></Marker>
+                    {profilesNearby.map((profile: Profile, index) => (
+                        <a onClick={() => alert(profile.buyer)} key={index}>
+                            <img
+                                src={profile.markerImagePath}
+                                width={'25px'}
+                                height={'25px'}
+                                alt={profile.bio}
+                            />
+                        </a>
                     ))}
                 </GoogleMap>
             )}

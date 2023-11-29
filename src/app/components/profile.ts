@@ -14,16 +14,16 @@ export interface AuthData {
 }
 
 export interface Profile {
-    lat?: number;
-    lng?: number;
+    lat: number;
+    lng: number;
     _id?: ObjectId;
-    buyer?: boolean;
-    seller?: boolean;
-    picture?: string;
+    buyer: boolean;
+    seller: boolean;
+    picture: string;
     reviews?: Review[];
     contact?: Contact;
-    bio?: string;
-    markerImagePath?: string;
+    bio: string;
+    markerImagePath: string;
     username: string;
 }
 

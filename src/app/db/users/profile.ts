@@ -66,9 +66,11 @@ export const saveProfileToDb = async (profile: Profile) => {
     try {
         const profileCollection = await getProfileCollection();
 
-        const query = { userId: profile._id };
+        const query = { 'contact.email': profile.contact?.email };
         const options = { upsert: true };
-        const update = { $set: profile };
+
+        const { _id, ...updateFields } = profile;
+        const update = { $set: { ...updateFields } };
 
         const insertResult = await profileCollection.updateOne(
             query,
@@ -90,7 +92,13 @@ export const saveProfileOnAuth = async (authData: AuthData) => {
     const profile = {
         username: name,
         picture,
-        contact: { email }
+        contact: { email },
+        buyer: false,
+        seller: false,
+        bio: '',
+        lat: 0,
+        lng: 0,
+        markerImagePath: ''
     };
 
     return saveProfileToDb(profile);

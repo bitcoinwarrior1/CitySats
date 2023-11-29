@@ -9,6 +9,13 @@ import { useEffect, useState } from 'react';
 import { Profile } from '../components/profile';
 
 const emptyProfile: Profile = {
+    lat: 0,
+    lng: 0,
+    buyer: false,
+    seller: false,
+    picture: '',
+    bio: '',
+    markerImagePath: '',
     username: ''
 };
 
@@ -17,24 +24,63 @@ export default function Page() {
     const [loading, setLoading] = useState(true);
     const [profileData, setProfileData] = useState(emptyProfile);
 
-    const updateProfile = () => {
-        return fetch(`${window.location.origin}/api/user/update`, {
-            method: 'POST',
-            body: JSON.stringify(profileData)
-        });
+    const updateProfile = async () => {
+        try {
+            // Send the current state to the server
+            await fetch(`${window.location.origin}/api/user/update`, {
+                method: 'POST',
+                body: JSON.stringify(profileData),
+                credentials: 'include'
+            });
+
+            // Fetch the updated profile from the server
+            const response = await fetch(
+                `${window.location.origin}/api/user/profile`,
+                {
+                    credentials: 'include'
+                }
+            );
+            const jsonBody = await response.json();
+
+            // Use the updated profile directly from the server response
+            setProfileData(jsonBody.data);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+        }
     };
 
     const setLocation = () => {
         navigator.geolocation.getCurrentPosition(
             (position: { coords: { latitude: number; longitude: number } }) => {
-                profileData.lat = position.coords.latitude;
-                profileData.lng = position.coords.longitude;
                 // @ts-ignore
                 document.getElementById('location').innerText =
                     `lat: ${position.coords.latitude}, long: ${position.coords.longitude}`;
-                setProfileData(profileData);
+                setProfileData((prevProfileData) => ({
+                    ...prevProfileData,
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }));
             }
         );
+    };
+
+    const onChangeBuyerAndSeller = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const { id, checked } = event.target;
+
+        setProfileData((prevProfileData) => ({
+            ...prevProfileData,
+            [id]: checked
+        }));
+    };
+
+    const onChangeBio = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const { value } = event.target;
+        setProfileData((prevProfileData) => ({
+            ...prevProfileData,
+            bio: value
+        }));
     };
 
     useEffect(() => {
@@ -42,9 +88,7 @@ export default function Page() {
             fetch(`${window.location.origin}/api/user/profile`, {
                 credentials: 'include'
             })
-                .then((response) => {
-                    return response.json();
-                })
+                .then((response) => response.json())
                 .then((jsonBody) => {
                     setProfileData(jsonBody.data);
                     setLoading(false);
@@ -71,29 +115,49 @@ export default function Page() {
                     <p>{`Your username: ${session.user?.name}`}</p>
                     <br></br>
                     <button id={'setLocation'} onClick={setLocation}>
-                        Set your location
+                        Set/update your location
                     </button>
                     <br></br>
                     <p id={'location'}></p>
                     <br></br>
                     <p id={'rating'}>
-                        Your ratings:{' '}
+                        Your ratings:
                         {profileData.reviews?.map((r) => {
                             return r.toString();
-                        })}
+                        }) || ' No ratings'}
                     </p>
                     <br></br>
-                    <fieldset>
-                        <legend>Profile type:</legend>
-                        <div>
-                            <input type="radio" id="buyer" value="buyer" />
-                            <label htmlFor="buyer">Buyer</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="seller" value="buyer" />
-                            <label htmlFor="seller">Seller</label>
-                        </div>
-                    </fieldset>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="buyer"
+                            checked={profileData.buyer || false}
+                            onChange={onChangeBuyerAndSeller}
+                        />
+                        <label htmlFor="buyer">Buyer</label>
+                    </div>
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="seller"
+                            checked={profileData.seller || false}
+                            onChange={onChangeBuyerAndSeller}
+                        />
+                        <label htmlFor="seller">Seller</label>
+                    </div>
+                    <br></br>
+                    <p>
+                        Your bio. Please include details such as how to contact
+                        you and your buy/sell limits:
+                    </p>
+                    <br></br>
+                    <textarea
+                        id={'bio'}
+                        onChange={onChangeBio}
+                        rows={5}
+                        cols={50}
+                        value={profileData.bio}
+                    ></textarea>
                     <br></br>
                     <button id={'update'} onClick={updateProfile}>
                         Update details
