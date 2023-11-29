@@ -60,7 +60,11 @@ export default function Page() {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 }));
-            }
+            },
+            (error) => {
+                console.error(error);
+            },
+            { enableHighAccuracy: false }
         );
     };
 
