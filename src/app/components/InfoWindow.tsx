@@ -11,7 +11,6 @@ export default function InfoWindow(props: {
     onClose: Function;
 }) {
     const ratingInfo = getStarRatingInfo(props.reviews);
-    console.log(ratingInfo);
     return (
         <div
             // @ts-ignore
@@ -101,13 +100,7 @@ export default function InfoWindow(props: {
             <br></br>
             <br></br>
             <br></br>
-            <p>
-                {props.reviews.length > 0
-                    ? `${getStarRatingInfo(props.reviews).average} stars (${
-                          props.reviews.length
-                      } reviews)`
-                    : 'no ratings yet'}
-            </p>
+            <p>{ratingInfo.description}</p>
             <button onClick={() => props.onClose()}>Close</button>
         </div>
     );

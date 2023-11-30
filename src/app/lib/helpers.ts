@@ -6,9 +6,17 @@ export const getStarRatingInfo = (reviews: Review[]) => {
         total += review?.star;
     }
 
+    let description = 'no reviews yet';
+    if (reviews.length == 1) {
+        description = '1 review';
+    } else if (reviews.length > 1) {
+        description = `${reviews.length} reviews`;
+    }
+
     return {
         average: total / reviews.length,
-        numberOfReviews: reviews.length
+        numberOfReviews: reviews.length,
+        description
     };
 };
 
