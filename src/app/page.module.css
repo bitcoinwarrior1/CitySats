@@ -1,3 +1,40 @@
+#infoWindow {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-width: 250px;
+    width: 250px;
+    text-align: center;
+}
+
+#infoWindow p {
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+#infoWindow button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#infoWindow button:hover {
+    background-color: #0056b3;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 480px) {
+    #infoWindow {
+        max-width: 100%;
+    }
+}
+
 .main {
     display: flex;
     flex-direction: column;

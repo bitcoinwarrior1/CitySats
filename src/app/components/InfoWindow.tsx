@@ -1,4 +1,5 @@
 import { Contact } from './profile';
+import styles from '../page.module.css';
 
 export default function InfoWindow(props: {
     username: string;
@@ -9,7 +10,11 @@ export default function InfoWindow(props: {
 }) {
     return (
         // @ts-ignore
-        <div position={props.position} onClose={props.onClose}>
+        <div
+            position={props.position}
+            onClose={props.onClose}
+            id={styles.infoWindow}
+        >
             <p>{props.username}</p>
             <p>{JSON.stringify(props.contact)}</p>
             <p>{props.bio}</p>
