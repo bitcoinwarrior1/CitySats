@@ -20,7 +20,7 @@ export async function profileHandler(
 
     // Check if the user is authenticated
     if (!session) {
-        return res.status(401).json({ error: 'unauthorised' });
+        return res.status(401).json({ error: 'Unauthorised' });
     }
 
     // Fetch the user's profile from the database
@@ -74,9 +74,9 @@ export const updateHandler = async (
         const { error: dbSaveError } = await saveProfileToDb(profile);
         if (dbSaveError) return res.status(500).json({ error: dbSaveError });
 
-        return res.status(200).json({ data: 'profile updated' });
+        return res.status(200).json({ data: 'Profile updated' });
     } else {
-        return res.status(401).json({ error: 'unauthorised' });
+        return res.status(401).json({ error: 'Unauthorised' });
     }
 };
 
@@ -87,7 +87,7 @@ export const reviewHandler = async (
     // Retrieve the session from the request context
     const session = await getServerSession(req, res, authOptions);
 
-    if (!session) return res.status(401).json({ error: 'unauthorised' });
+    if (!session) return res.status(401).json({ error: 'Unauthorised' });
 
     const { error: dbError, data: dbProfileReviewer } = await getProfileByEmail(
         session.user?.email
@@ -103,7 +103,6 @@ export const reviewHandler = async (
     if (!review || !review?.star || !review?.username)
         return res.status(400).json({ error: 'Incomplete review provided' });
 
-    // TODO prevent a user from reviewing their own profile
     const { error: dbRatedProfileError, data: ratedDbProfile } =
         await getProfileByUsername(review.username);
 
@@ -111,7 +110,12 @@ export const reviewHandler = async (
         return res.status(500).json({ error: dbRatedProfileError });
 
     if (!ratedDbProfile)
-        return res.status(400).json({ error: 'rated profile does not exist' });
+        return res.status(400).json({ error: 'Rated profile does not exist' });
+
+    if (ratedDbProfile.username === dbProfileReviewer.username)
+        return res
+            .status(200)
+            .json({ error: 'Cannot vote on your own profile' });
 
     // TODO a review to a particular user should only be submitted by each user once, mongoDb should override if exists
     let reviews = ratedDbProfile?.reviews ?? [];
