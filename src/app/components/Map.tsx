@@ -2,6 +2,8 @@
 import GoogleMap from 'google-maps-react-markers';
 import { useEffect, useState } from 'react';
 import { Profile } from './profile';
+import { emptyProfile } from '../lib/constants';
+import InfoWindow from './InfoWindow';
 
 const mapContainerStyle = {
     width: '90vw',
@@ -17,6 +19,7 @@ const Map = ({}) => {
     });
     const [loading, setLoading] = useState(true);
     const [profilesNearby, setProfilesNearby] = useState(Array());
+    const [selectedProfile, setSelectedProfile] = useState(emptyProfile);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -39,6 +42,14 @@ const Map = ({}) => {
         );
     }, []);
 
+    const renderMarkerProfile = (profile: Profile) => {
+        setSelectedProfile(profile);
+    };
+
+    const handleCloseInfoWindow = () => {
+        setSelectedProfile(emptyProfile);
+    };
+
     return (
         <div id={'map'}>
             {!loading && (
@@ -49,7 +60,10 @@ const Map = ({}) => {
                     style={mapContainerStyle}
                 >
                     {profilesNearby.map((profile: Profile, index) => (
-                        <a onClick={() => alert(profile.bio)} key={index}>
+                        <a
+                            onClick={() => renderMarkerProfile(profile)}
+                            key={index}
+                        >
                             <img
                                 src={profile.markerImagePath}
                                 width={'25px'}
@@ -58,6 +72,19 @@ const Map = ({}) => {
                             />
                         </a>
                     ))}
+
+                    {selectedProfile.username !== '' && (
+                        <InfoWindow
+                            position={{
+                                lat: selectedProfile.lat,
+                                lng: selectedProfile.lng
+                            }}
+                            onClose={handleCloseInfoWindow}
+                            bio={selectedProfile.bio}
+                            contact={selectedProfile.contact ?? {}}
+                            username={selectedProfile.username}
+                        ></InfoWindow>
+                    )}
                 </GoogleMap>
             )}
         </div>

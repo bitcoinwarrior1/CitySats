@@ -1,23 +1,12 @@
 'use client';
 
 import styles from '../page.module.css';
-import Description from '../components/description';
-import Grid from '../components/grid';
-import LoginBtn from '../components/login-btn';
+import Description from '../components/Description';
+import Grid from '../components/Grid';
+import LoginBtn from '../components/LoginBtn';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { Profile } from '../components/profile';
-
-const emptyProfile: Profile = {
-    lat: 0,
-    lng: 0,
-    buyer: false,
-    seller: false,
-    picture: '',
-    bio: '',
-    markerImagePath: '',
-    username: ''
-};
+import { emptyProfile } from '../lib/constants';
 
 export default function Page() {
     const { data: session } = useSession();
@@ -52,9 +41,6 @@ export default function Page() {
     const setLocation = () => {
         navigator.geolocation.getCurrentPosition(
             (position: { coords: { latitude: number; longitude: number } }) => {
-                // @ts-ignore
-                document.getElementById('location').innerText =
-                    `lat: ${position.coords.latitude}, long: ${position.coords.longitude}`;
                 setProfileData((prevProfileData) => ({
                     ...prevProfileData,
                     lat: position.coords.latitude,
@@ -64,7 +50,7 @@ export default function Page() {
             (error) => {
                 console.error(error);
             },
-            { enableHighAccuracy: false }
+            { enableHighAccuracy: false } // TODO test this
         );
     };
 
@@ -122,13 +108,15 @@ export default function Page() {
                         Set/update your location
                     </button>
                     <br></br>
-                    <p id={'location'}></p>
+                    <p
+                        id={'location'}
+                    >{`lat: ${profileData.lat}, long: ${profileData.lng}`}</p>
                     <br></br>
                     <p id={'rating'}>
                         Your ratings:
                         {profileData.reviews?.map((r) => {
                             return r.toString();
-                        }) || ' No ratings'}
+                        }) || ' no ratings'}
                     </p>
                     <br></br>
                     <div>
