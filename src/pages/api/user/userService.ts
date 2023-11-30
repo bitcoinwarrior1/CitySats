@@ -1,13 +1,14 @@
 import {
     getProfileByEmail,
     getProfileById,
+    getProfileByUsername,
     getProfilesByLocation,
     saveProfileToDb
 } from '../../../app/db/users/profile';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
-import { Profile } from '../../../app/components/profile';
+import { setMarkerImage } from '../../../app/lib/helpers';
 
 export async function profileHandler(
     req: NextApiRequest,
@@ -78,16 +79,6 @@ export const updateHandler = async (
     }
 };
 
-const setMarkerImage = (profile: Profile) => {
-    if (profile.buyer && profile.seller) {
-        profile.markerImagePath = 'buyerAndSeller.jpeg';
-    } else if (profile.seller) {
-        profile.markerImagePath = 'seller.png';
-    } else {
-        profile.markerImagePath = 'buyer.png';
-    }
-};
-
 export const reviewHandler = async (
     req: NextApiRequest,
     res: NextApiResponse
@@ -97,24 +88,43 @@ export const reviewHandler = async (
 
     if (!session) return res.status(401).json({ error: 'unauthorised' });
 
-    const { error: dbError, data: dbProfile } = await getProfileByEmail(
+    const { error: dbError, data: dbProfileReviewer } = await getProfileByEmail(
         session.user?.email
     );
     if (dbError) return res.status(500).json({ error: dbError });
 
-    const { rating, ratedProfileId, review } = req.body.params;
-    if (!rating) return res.status(400).json({ error: 'No rating provided' });
-    if (!ratedProfileId)
-        return res.status(400).json({ error: 'No profile provided' });
+    if (!dbProfileReviewer?._id)
+        return res
+            .status(400)
+            .json({ error: 'Reviewer profile does not exist' });
+
+    const { data: review } = JSON.parse(req.body);
+    if (!review || !review?.star)
+        return res.status(400).json({ error: 'No review provided' });
+
     const { error: dbRatedProfileError, data: ratedDbProfile } =
-        await getProfileById(ratedProfileId);
+        await getProfileByUsername(review.username);
+
     if (dbRatedProfileError)
         return res.status(500).json({ error: dbRatedProfileError });
+
     if (!ratedDbProfile)
         return res.status(400).json({ error: 'rated profile does not exist' });
-    ratedDbProfile?.reviews?.push(review);
+
+    // TODO a review to a particular user should only be submitted by each user once, mongoDb should override if exists
+    const reviews = ratedDbProfile?.reviews ?? [];
+    for (let i = 0; i < reviews.length; i++) {
+        if (reviews[i].profileId == dbProfileReviewer._id) {
+            delete reviews[i];
+            break;
+        }
+    }
+    reviews.push(review);
+    ratedDbProfile.reviews = reviews;
+
     const { error: dbSaveError } = await saveProfileToDb(ratedDbProfile);
+
     if (dbSaveError) return res.status(500).json({ error: dbSaveError });
 
-    return res.status(200).json({ data: 'profile updated' });
+    return res.status(200).json({ data: 'review added' });
 };

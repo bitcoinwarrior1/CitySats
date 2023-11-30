@@ -8,5 +8,7 @@ export const emptyProfile: Profile = {
     picture: '',
     bio: '',
     markerImagePath: '',
-    username: ''
+    username: '',
+    reviews: [],
+    contact: {}
 };

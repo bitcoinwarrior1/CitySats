@@ -28,6 +28,7 @@ export interface Profile {
 }
 
 export interface Review {
+    profileId?: ObjectId; // profileId of the user who is voting
     star: number;
     comment?: string;
 }

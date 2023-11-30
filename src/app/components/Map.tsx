@@ -81,6 +81,7 @@ const Map = ({}) => {
                             }}
                             onClose={handleCloseInfoWindow}
                             bio={selectedProfile.bio}
+                            reviews={selectedProfile.reviews ?? []}
                             contact={selectedProfile.contact ?? {}}
                             username={selectedProfile.username}
                         ></InfoWindow>
