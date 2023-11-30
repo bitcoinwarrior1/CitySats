@@ -28,7 +28,11 @@ export interface Profile {
 }
 
 export interface Review {
-    profileId?: ObjectId; // profileId of the user who is voting
+    profileId?: ObjectId; // profileId of the user who is reviewing
     star: number;
     comment?: string;
+}
+
+export interface SubmitReview extends Review {
+    username: string; // username of the profile who is getting reviewed
 }

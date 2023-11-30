@@ -3,7 +3,7 @@ import { Profile, Review } from '../components/profile';
 export const getStarRatingInfo = (reviews: Review[]) => {
     let total = 0;
     for (const review of reviews) {
-        total += review.star;
+        total += review?.star;
     }
 
     return {

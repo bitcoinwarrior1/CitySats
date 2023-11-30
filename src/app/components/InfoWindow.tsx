@@ -1,4 +1,4 @@
-import { Contact, Review } from './profile';
+import { Contact, Review, SubmitReview } from './profile';
 import styles from '../page.module.css';
 import { getStarRatingInfo } from '../lib/helpers';
 
@@ -29,7 +29,7 @@ export default function InfoWindow(props: {
                     name="rate"
                     value="5"
                     onClick={(event) => {
-                        return onClickReview(5, event);
+                        return onClickReview(5, props.username, event);
                     }}
                     defaultChecked={ratingInfo.average == 5}
                 />
@@ -42,7 +42,7 @@ export default function InfoWindow(props: {
                     name="rate"
                     value="4"
                     onClick={(event) => {
-                        return onClickReview(4, event);
+                        return onClickReview(4, props.username, event);
                     }}
                     defaultChecked={
                         ratingInfo.average >= 4 && ratingInfo.average < 5
@@ -57,7 +57,7 @@ export default function InfoWindow(props: {
                     name="rate"
                     value="3"
                     onClick={(event) => {
-                        return onClickReview(3, event);
+                        return onClickReview(3, props.username, event);
                     }}
                     defaultChecked={
                         ratingInfo.average >= 3 && ratingInfo.average < 4
@@ -72,7 +72,7 @@ export default function InfoWindow(props: {
                     name="rate"
                     value="2"
                     onClick={(event) => {
-                        return onClickReview(2, event);
+                        return onClickReview(2, props.username, event);
                     }}
                     defaultChecked={
                         ratingInfo.average >= 2 && ratingInfo.average < 3
@@ -87,7 +87,7 @@ export default function InfoWindow(props: {
                     name="rate"
                     value="1"
                     onClick={(event) => {
-                        return onClickReview(1, event);
+                        return onClickReview(1, props.username, event);
                     }}
                     defaultChecked={
                         ratingInfo.average >= 1 && ratingInfo.average < 2
@@ -113,9 +113,10 @@ export default function InfoWindow(props: {
     );
 }
 
-const onClickReview = async (star: number, event: any) => {
+const onClickReview = async (star: number, username: string, event: any) => {
     // TODO allow users to add comments
-    const review: Review = {
+    const review: SubmitReview = {
+        username,
         star
     };
 

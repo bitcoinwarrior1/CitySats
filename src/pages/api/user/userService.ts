@@ -9,6 +9,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 import { setMarkerImage } from '../../../app/lib/helpers';
+import { ObjectId } from 'bson';
 
 export async function profileHandler(
     req: NextApiRequest,
@@ -99,9 +100,10 @@ export const reviewHandler = async (
             .json({ error: 'Reviewer profile does not exist' });
 
     const { data: review } = JSON.parse(req.body);
-    if (!review || !review?.star)
-        return res.status(400).json({ error: 'No review provided' });
+    if (!review || !review?.star || !review?.username)
+        return res.status(400).json({ error: 'Incomplete review provided' });
 
+    // TODO prevent a user from reviewing their own profile
     const { error: dbRatedProfileError, data: ratedDbProfile } =
         await getProfileByUsername(review.username);
 
@@ -112,14 +114,12 @@ export const reviewHandler = async (
         return res.status(400).json({ error: 'rated profile does not exist' });
 
     // TODO a review to a particular user should only be submitted by each user once, mongoDb should override if exists
-    const reviews = ratedDbProfile?.reviews ?? [];
-    for (let i = 0; i < reviews.length; i++) {
-        if (reviews[i].profileId == dbProfileReviewer._id) {
-            delete reviews[i];
-            break;
-        }
-    }
-    reviews.push(review);
+    let reviews = ratedDbProfile?.reviews ?? [];
+    reviews = reviews.filter((r) => {
+        // Do not allow the same user to have multiple reviews on the same profile
+        return r?.profileId?.toString() != dbProfileReviewer._id?.toString();
+    });
+    reviews.push({ star: review.star, profileId: dbProfileReviewer._id });
     ratedDbProfile.reviews = reviews;
 
     const { error: dbSaveError } = await saveProfileToDb(ratedDbProfile);
