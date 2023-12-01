@@ -63,6 +63,9 @@ const Map = ({}) => {
                         <a
                             onClick={() => renderMarkerProfile(profile)}
                             key={index}
+                            // @ts-ignore
+                            lat={profile.lat}
+                            lng={profile.lng}
                         >
                             <img
                                 src={profile.markerImagePath}
