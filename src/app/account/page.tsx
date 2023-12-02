@@ -7,6 +7,7 @@ import LoginBtn from '../components/LoginBtn';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { emptyProfile } from '../lib/constants';
+import { getStarRatingInfo } from '../lib/helpers';
 
 export default function Page() {
     const { data: session } = useSession();
@@ -72,6 +73,13 @@ export default function Page() {
             username: value
         }));
     };
+    const onChangeContact = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, id } = event.target;
+        setProfileData((prevProfileData) => ({
+            ...prevProfileData,
+            contact: { ...prevProfileData.contact, [id]: value }
+        }));
+    };
 
     const onChangeBio = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = event.target;
@@ -111,11 +119,48 @@ export default function Page() {
             {!loading && (
                 <div id={'profileDetails'}>
                     <p>
-                        {`Your username: `}
+                        Your username:
                         <input
                             type={'text'}
                             value={profileData.username}
                             onChange={onChangeUsername}
+                        ></input>
+                    </p>
+                    <br></br>
+                    <p>
+                        Email:
+                        <input
+                            type={'text'}
+                            id={'email'}
+                            defaultValue={profileData.contact?.email}
+                            onChange={onChangeContact}
+                        ></input>
+                    </p>
+                    <p>
+                        Telegram:
+                        <input
+                            type={'text'}
+                            id={'telegram'}
+                            defaultValue={profileData.contact?.telegram}
+                            onChange={onChangeContact}
+                        ></input>
+                    </p>
+                    <p>
+                        Wickr:
+                        <input
+                            type={'text'}
+                            id={'wickr'}
+                            defaultValue={profileData.contact?.wickr}
+                            onChange={onChangeContact}
+                        ></input>
+                    </p>
+                    <p>
+                        Signal:
+                        <input
+                            type={'text'}
+                            id={'signal'}
+                            defaultValue={profileData.contact?.signal}
+                            onChange={onChangeContact}
                         ></input>
                     </p>
                     <br></br>
@@ -127,11 +172,12 @@ export default function Page() {
                         id={'location'}
                     >{`lat: ${profileData.lat}, long: ${profileData.lng}`}</p>
                     <br></br>
-                    <p id={'rating'}>
-                        Your ratings:
-                        {profileData.reviews?.map((r) => {
-                            return r.toString();
-                        }) || ' no ratings'}
+                    <p>
+                        Reviews:
+                        {' ' +
+                            JSON.stringify(
+                                getStarRatingInfo(profileData.reviews ?? [])
+                            )}
                     </p>
                     <br></br>
                     <div>
@@ -154,8 +200,8 @@ export default function Page() {
                     </div>
                     <br></br>
                     <p>
-                        Your bio. Please include details such as how to contact
-                        you and your buy/sell limits:
+                        Your bio. Please include details such as your buy/sell
+                        limits and availability.
                     </p>
                     <br></br>
                     <textarea

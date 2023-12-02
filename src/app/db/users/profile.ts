@@ -1,6 +1,7 @@
 import { ObjectId } from 'bson';
 import { AuthData, Contact, Profile, Review } from '../../components/profile';
 import { getProfileCollection } from './connect';
+import { emptyContact, emptyProfile } from '../../lib/constants';
 
 export const getProfileById = async (_id: string) => {
     try {
@@ -90,15 +91,10 @@ export const saveProfileOnAuth = async (authData: AuthData) => {
     if (error) return { error };
     if (dbProfile?.username) return { data: 'user already exists' };
     const profile = {
-        username: name,
+        ...emptyProfile,
         picture,
-        contact: { email },
-        buyer: false,
-        seller: false,
-        bio: '',
-        lat: 0,
-        lng: 0,
-        markerImagePath: ''
+        username: name,
+        contact: { ...emptyContact, email }
     };
 
     return saveProfileToDb(profile);

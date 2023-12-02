@@ -1,4 +1,11 @@
-import { Profile } from '../components/profile';
+import { Contact, Profile } from '../components/profile';
+
+export const emptyContact: Contact = {
+    telegram: '',
+    email: '',
+    wickr: '',
+    signal: ''
+};
 
 export const emptyProfile: Profile = {
     lat: 0,
@@ -10,5 +17,5 @@ export const emptyProfile: Profile = {
     markerImagePath: '',
     username: '',
     reviews: [],
-    contact: {}
+    contact: emptyContact
 };

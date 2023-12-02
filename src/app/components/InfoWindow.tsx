@@ -19,7 +19,30 @@ export default function InfoWindow(props: {
             id={styles.infoWindow}
         >
             <p>{props.username}</p>
-            <p>{JSON.stringify(props.contact)}</p>
+            {props.contact.email ? (
+                <a href={`mailto:${props.contact.email}`}>
+                    <img
+                        src={'/email.png'}
+                        alt={'email'}
+                        className={styles.contact}
+                    />
+                </a>
+            ) : (
+                ''
+            )}
+            {props.contact.telegram ? (
+                <a href={`https://t.me/${props.contact.telegram}`}>
+                    <img
+                        src={'/telegram.png'}
+                        alt={'telegram'}
+                        className={styles.contact}
+                    />
+                </a>
+            ) : (
+                ''
+            )}
+            <p>{props.contact.wickr}</p>
+            <p>{props.contact.signal}</p>
             <p>{props.bio}</p>
             <div className={styles.rate}>
                 <input

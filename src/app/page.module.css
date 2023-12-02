@@ -36,6 +36,11 @@
     }
 }
 
+.contact {
+    width: 20px;
+    height: 20px;
+}
+
 .rate {
     float: left;
     height: 46px;
