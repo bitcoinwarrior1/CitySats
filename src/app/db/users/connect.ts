@@ -18,5 +18,6 @@ export const getMongoClient = () => {
 export const getProfileCollection = async () => {
     const client = getMongoClient();
     const db = client.db('citysats');
+    // await db.collection('profile').createIndex('username', { unique: true })
     return db.collection('profile');
 };

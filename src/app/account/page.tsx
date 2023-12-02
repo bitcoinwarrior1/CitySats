@@ -65,6 +65,14 @@ export default function Page() {
         }));
     };
 
+    const onChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setProfileData((prevProfileData) => ({
+            ...prevProfileData,
+            username: value
+        }));
+    };
+
     const onChangeBio = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = event.target;
         setProfileData((prevProfileData) => ({
@@ -102,7 +110,14 @@ export default function Page() {
             <Description />
             {!loading && (
                 <div id={'profileDetails'}>
-                    <p>{`Your username: ${session.user?.name}`}</p>
+                    <p>
+                        {`Your username: `}
+                        <input
+                            type={'text'}
+                            value={profileData.username}
+                            onChange={onChangeUsername}
+                        ></input>
+                    </p>
                     <br></br>
                     <button id={'setLocation'} onClick={setLocation}>
                         Set/update your location
