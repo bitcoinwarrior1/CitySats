@@ -2,7 +2,6 @@ import 'dotenv/config';
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import TwitterProvider from 'next-auth/providers/twitter';
 import RedditProvider from 'next-auth/providers/reddit';
 import { saveProfileOnAuth } from '../../../app/db/users/profile';
 
@@ -16,10 +15,6 @@ export const authOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_ID ?? '',
             clientSecret: process.env.GOOGLE_SECRET ?? ''
-        }),
-        TwitterProvider({
-            clientId: process.env.TWITTER_ID ?? '',
-            clientSecret: process.env.TWITTER_SECRET ?? ''
         }),
         RedditProvider({
             clientId: process.env.REDDIT_ID ?? '',
