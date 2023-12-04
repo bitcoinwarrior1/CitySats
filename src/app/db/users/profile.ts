@@ -87,9 +87,9 @@ export const saveProfileToDb = async (profile: Profile) => {
 
 export const saveProfileOnAuth = async (authData: AuthData) => {
     const { picture, email, name } = authData;
-    const { error, data: dbProfile } = await getProfileByUsername(name);
+    const { error, data: dbProfile } = await getProfileByEmail(email);
     if (error) return { error };
-    if (dbProfile?.username) return { data: 'user already exists' };
+    if (dbProfile?._id) return { data: 'user already exists' };
     const profile = {
         ...emptyProfile,
         picture,
