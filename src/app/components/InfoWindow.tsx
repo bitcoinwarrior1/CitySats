@@ -19,17 +19,6 @@ export default function InfoWindow(props: {
             id={styles.infoWindow}
         >
             <p>{props.username}</p>
-            {props.contact.email ? (
-                <a href={`mailto:${props.contact.email}`}>
-                    <img
-                        src={'/email.png'}
-                        alt={'email'}
-                        className={styles.contact}
-                    />
-                </a>
-            ) : (
-                ''
-            )}
             {props.contact.telegram ? (
                 <a href={`https://t.me/${props.contact.telegram}`}>
                     <img

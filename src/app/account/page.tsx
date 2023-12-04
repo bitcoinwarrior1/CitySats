@@ -128,15 +128,6 @@ export default function Page() {
                     </p>
                     <br></br>
                     <p>
-                        Email:
-                        <input
-                            type={'text'}
-                            id={'email'}
-                            defaultValue={profileData.contact?.email}
-                            onChange={onChangeContact}
-                        ></input>
-                    </p>
-                    <p>
                         Telegram:
                         <input
                             type={'text'}
