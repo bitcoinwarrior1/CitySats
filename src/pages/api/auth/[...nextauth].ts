@@ -3,7 +3,6 @@ import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import TwitterProvider from 'next-auth/providers/twitter';
-import LinkedInProvider from 'next-auth/providers/linkedin';
 import RedditProvider from 'next-auth/providers/reddit';
 import { saveProfileOnAuth } from '../../../app/db/users/profile';
 
@@ -21,10 +20,6 @@ export const authOptions = {
         TwitterProvider({
             clientId: process.env.TWITTER_ID ?? '',
             clientSecret: process.env.TWITTER_SECRET ?? ''
-        }),
-        LinkedInProvider({
-            clientId: process.env.LINKEDIN_ID ?? '',
-            clientSecret: process.env.LINKEDIN_SECRET ?? ''
         }),
         RedditProvider({
             clientId: process.env.REDDIT_ID ?? '',
