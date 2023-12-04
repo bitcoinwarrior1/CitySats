@@ -22,7 +22,7 @@ export const getStarRatingInfo = (reviews: Review[]) => {
 
 export const setMarkerImage = (profile: Profile) => {
     if (profile.buyer && profile.seller) {
-        profile.markerImagePath = 'buyerAndSeller.jpeg';
+        profile.markerImagePath = 'buyerAndSeller.png';
     } else if (profile.seller) {
         profile.markerImagePath = 'seller.png';
     } else {
