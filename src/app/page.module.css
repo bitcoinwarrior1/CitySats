@@ -31,8 +31,18 @@
 
 /* Media query for smaller screens */
 @media (max-width: 480px) {
+    #infoWindow p {
+        margin: 0;
+        font-size: 10px;
+    }
     #infoWindow {
-        max-width: 100%;
+        position: relative;
+        right: 30vw;
+        bottom: 30vw;
+    }
+    .rate {
+        height: 5px;
+        padding: 0;
     }
 }
 
