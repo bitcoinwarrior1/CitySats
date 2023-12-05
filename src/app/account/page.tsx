@@ -117,7 +117,7 @@ export default function Page() {
         <main className={styles.main}>
             <Description />
             {!loading && (
-                <div id={'profileDetails'}>
+                <div id={styles.profileDetails}>
                     <p>
                         Your username:
                         <input

@@ -1,3 +1,11 @@
+#profileDetails {
+    left: 2vw;
+    margin: 5px;
+    position: relative;
+    width: 100vw;
+    padding: 5px;
+}
+
 #infoWindow {
     background-color: #fff;
     border: 1px solid #ccc;
