@@ -30,8 +30,10 @@ export default function InfoWindow(props: {
             ) : (
                 ''
             )}
-            <p>{props.contact.wickr}</p>
-            <p>{props.contact.signal}</p>
+            <p>{props.contact.wickr ? `wickr: ${props.contact.wickr}` : ''}</p>
+            <p>
+                {props.contact.signal ? `signal: ${props.contact.signal}` : ''}
+            </p>
             <p>{props.bio}</p>
             <div className={styles.rate}>
                 <input

@@ -13,6 +13,7 @@ export default function Page() {
     const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
     const [profileData, setProfileData] = useState(emptyProfile);
+    const [updated, setUpdated] = useState(false);
 
     const updateProfile = async () => {
         try {
@@ -34,6 +35,7 @@ export default function Page() {
 
             // Use the updated profile directly from the server response
             setProfileData(jsonBody.data);
+            setUpdated(true);
         } catch (error) {
             console.error('Error updating profile:', error);
         }
@@ -206,6 +208,7 @@ export default function Page() {
                     <button id={'update'} onClick={updateProfile}>
                         Update details
                     </button>
+                    <p id={'status'}>{updated ? 'profile updated' : ''}</p>
                 </div>
             )}
             <LoginBtn />
