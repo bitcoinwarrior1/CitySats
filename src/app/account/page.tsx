@@ -44,17 +44,23 @@ export default function Page() {
     const setLocation = () => {
         navigator.geolocation.getCurrentPosition(
             (position: { coords: { latitude: number; longitude: number } }) => {
+                const lat = position.coords.latitude + randomLocationOffset();
+                const lng = position.coords.longitude + randomLocationOffset();
                 setProfileData((prevProfileData) => ({
                     ...prevProfileData,
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
+                    lat,
+                    lng
                 }));
             },
             (error) => {
                 console.error(error);
-            },
-            { enableHighAccuracy: false } // TODO test this
+            }
         );
+    };
+
+    const randomLocationOffset = () => {
+        // improves privacy and prevents marker overlap
+        return parseFloat((Math.random() * (0.005 - 0.001) + 0.001).toFixed(4));
     };
 
     const onChangeBuyerAndSeller = (
