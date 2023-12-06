@@ -56,7 +56,7 @@ const Map = ({}) => {
                 <GoogleMap
                     apiKey={'AIzaSyAQWSnntCOZdRP6hAKv2wR9nLGwOv69BZ0'}
                     defaultCenter={location}
-                    defaultZoom={12}
+                    defaultZoom={13}
                     style={mapContainerStyle}
                 >
                     {profilesNearby.map((profile: Profile, index) => (
