@@ -21,26 +21,43 @@ const Map = ({}) => {
     const [profilesNearby, setProfilesNearby] = useState(Array());
     const [selectedProfile, setSelectedProfile] = useState(emptyProfile);
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition(
-            (position: { coords: { latitude: number; longitude: number } }) => {
-                setLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
+    const getProfilesNearby = () => {
+        const query = `${window.location.origin}/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`;
+        fetch(query)
+            .then((response) => {
+                return response.json();
+            })
+            .then((responseJson) => {
+                setProfilesNearby((prev) => {
+                    return prev.concat(responseJson.data);
                 });
-                const query = `${window.location.origin}/api/user/nearbyProfiles?lat=${position.coords.latitude}&lng=${position.coords.longitude}`;
-                fetch(query)
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then((jsonData) => {
-                        setProfilesNearby(jsonData.data);
-                        setLoading(false);
-                    })
-                    .catch(console.error);
-            }
-        );
+                setLoading(false);
+            })
+            .catch(console.error);
+    };
+
+    useEffect(() => {
+        if (loading) {
+            navigator.geolocation.getCurrentPosition(
+                (position: {
+                    coords: { latitude: number; longitude: number };
+                }) => {
+                    setLocation({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    });
+                    getProfilesNearby();
+                }
+            );
+        }
     }, []);
+
+    const handleMapMove = (map: any) => {
+        if (!loading) {
+            setLocation({ lat: map.center[1], lng: map.center[0] });
+            getProfilesNearby();
+        }
+    };
 
     const renderMarkerProfile = (profile: Profile) => {
         setSelectedProfile(profile);
@@ -58,6 +75,7 @@ const Map = ({}) => {
                     defaultCenter={location}
                     defaultZoom={13}
                     style={mapContainerStyle}
+                    onChange={handleMapMove}
                 >
                     {profilesNearby.map((profile: Profile, index) => (
                         <a
