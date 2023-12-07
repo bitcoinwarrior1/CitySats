@@ -42,6 +42,21 @@ export const getProfileByEmail = async (email: string | null | undefined) => {
     }
 };
 
+export const deleteProfileByEmail = async (
+    email: string | null | undefined
+) => {
+    try {
+        const userCollection = await getProfileCollection();
+        const data = await userCollection.deleteOne({
+            'contact.email': email
+        });
+
+        return { data };
+    } catch (error) {
+        return { error };
+    }
+};
+
 export const getProfilesByLocation = async (lat: number, lng: number) => {
     try {
         const profileCollection = await getProfileCollection();

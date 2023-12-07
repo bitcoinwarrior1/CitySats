@@ -1,4 +1,5 @@
 import {
+    deleteProfileByEmail,
     getProfileByEmail,
     getProfileById,
     getProfileByUsername,
@@ -35,6 +36,29 @@ export async function profileHandler(
 
     // Return the profile data or an error message
     return res.status(200).json({ data: dbProfile });
+}
+
+export async function deleteHandler(req: NextApiRequest, res: NextApiResponse) {
+    // Retrieve the session from the request context
+    const session = await getServerSession(req, res, authOptions);
+
+    // Check if the user is authenticated
+    if (!session) {
+        return res.status(401).json({ error: 'Unauthorised' });
+    }
+
+    // Fetch the user's profile from the database
+    const { error: dbError } = await deleteProfileByEmail(
+        session.user?.email ?? session.user?.name
+    );
+
+    // Handle database errors
+    if (dbError) {
+        return res.status(500).json({ error: dbError });
+    }
+
+    // Return the profile data or an error message
+    return res.status(200).json({ data: 'profile deleted' });
 }
 
 export async function nearbyProfilesHandler(

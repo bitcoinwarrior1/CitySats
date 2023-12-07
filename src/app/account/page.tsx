@@ -4,7 +4,7 @@ import styles from '../page.module.css';
 import Description from '../components/Description';
 import Grid from '../components/Grid';
 import LoginBtn from '../components/LoginBtn';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { emptyProfile } from '../lib/constants';
 import { getStarRatingInfo } from '../lib/helpers';
@@ -14,6 +14,7 @@ export default function Page() {
     const [loading, setLoading] = useState(true);
     const [profileData, setProfileData] = useState(emptyProfile);
     const [updated, setUpdated] = useState(false);
+    const [deleteProfile, setDeleteProfile] = useState(false);
 
     const updateProfile = async () => {
         try {
@@ -38,6 +39,23 @@ export default function Page() {
             setUpdated(true);
         } catch (error) {
             console.error('Error updating profile:', error);
+        }
+    };
+
+    const deleteProfileClick = async () => {
+        try {
+            // make the user press twice to confirm
+            if (deleteProfile) {
+                await fetch(`${window.location.origin}/api/user/delete`, {
+                    credentials: 'include'
+                });
+                setProfileData(emptyProfile);
+                await signOut();
+            } else {
+                setDeleteProfile(true);
+            }
+        } catch (error) {
+            console.error('Error deleting profile:', error);
         }
     };
 
@@ -215,6 +233,10 @@ export default function Page() {
                         Update details
                     </button>
                     <p id={'status'}>{updated ? 'profile updated' : ''}</p>
+                    <br></br>
+                    <button id={'delete'} onClick={deleteProfileClick}>
+                        {deleteProfile ? 'Are you sure?' : 'Delete profile'}
+                    </button>
                 </div>
             )}
             <LoginBtn />
