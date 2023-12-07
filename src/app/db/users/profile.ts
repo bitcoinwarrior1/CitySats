@@ -61,8 +61,8 @@ export const getProfilesByLocation = async (lat: number, lng: number) => {
     try {
         const profileCollection = await getProfileCollection();
         const query = {
-            lat: { $gt: lat - 1, $lt: lat + 1 },
-            lng: { $gt: lng - 1, $lt: lng + 1 }
+            lat: { $gt: lat - 5, $lt: lat + 5 },
+            lng: { $gt: lng - 5, $lt: lng + 5 }
         };
         const cursor = profileCollection.find(query);
 
