@@ -86,7 +86,15 @@ export const saveProfileToDb = async (profile: Profile) => {
 };
 
 export const saveProfileOnAuth = async (authData: AuthData) => {
-    const { picture, email, name } = authData;
+    let { picture, email, name } = authData;
+    if (!email) {
+        // if an email address cannot be obtained from auth data, set the email to be the username
+        // this allows us to keep a permanent identifier to the user account and will allow those without email addresses to modifier their usernames
+        // otherwise we won't be able to locate the account if the username is changed and the user logs in after signing out
+        // this is important for reddit auth, as reddit does not provide an email address
+        // TODO it might be better to rename the key from email to something more appropriate like identifier
+        email = name;
+    }
     const { error, data: dbProfile } = await getProfileByEmail(email);
     if (error) return { error };
     if (dbProfile?._id) return { data: 'user already exists' };

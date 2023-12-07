@@ -25,7 +25,7 @@ export async function profileHandler(
 
     // Fetch the user's profile from the database
     const { error: dbError, data: dbProfile } = await getProfileByEmail(
-        session.user?.email
+        session.user?.email ?? session.user?.name
     );
 
     // Handle database errors
@@ -64,7 +64,7 @@ export const updateHandler = async (
 
     if (session) {
         const { error: dbError, data: dbProfile } = await getProfileByEmail(
-            session.user?.email
+            session.user?.email ?? session.user?.name
         );
         if (dbError) return res.status(400).json({ error: dbError });
         const profile = JSON.parse(req.body);
@@ -90,7 +90,7 @@ export const reviewHandler = async (
     if (!session) return res.status(401).json({ error: 'Unauthorised' });
 
     const { error: dbError, data: dbProfileReviewer } = await getProfileByEmail(
-        session.user?.email
+        session.user?.email ?? session.user?.name
     );
     if (dbError) return res.status(500).json({ error: dbError });
 
