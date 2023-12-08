@@ -37,7 +37,7 @@ export default function Page() {
                 <br></br>
                 <p>
                     Yes, you can find the code here:
-                    https://github.com/James-Sangalli/CitySats.
+                    https://github.com/bitcoinwarrior1/CitySats.
                 </p>
                 <br></br>
                 <h4>How to use this site safely</h4>
