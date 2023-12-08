@@ -12,6 +12,13 @@ import { authOptions } from '../auth/[...nextauth]';
 import { setMarkerImage } from '../../../app/lib/helpers';
 import { ObjectId } from 'bson';
 
+/*
+ * @dev get profile information about a particular user
+ * @dev requires a valid session
+ * @param req - the HTTP request
+ * @param res - the HTTP response
+ * @returns the database profile (HTTP status code 200) or an error
+ * */
 export async function profileHandler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -38,6 +45,13 @@ export async function profileHandler(
     return res.status(200).json({ data: dbProfile });
 }
 
+/*
+ * @dev delete a user's account
+ * @dev requires a valid session
+ * @param req - the HTTP request
+ * @param res - the HTTP response
+ * @returns 'profile deleted' if successful (HTTP status code 200), else an error
+ * */
 export async function deleteHandler(req: NextApiRequest, res: NextApiResponse) {
     // Retrieve the session from the request context
     const session = await getServerSession(req, res, authOptions);
@@ -61,6 +75,12 @@ export async function deleteHandler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json({ data: 'profile deleted' });
 }
 
+/*
+ * @dev get nearby profile markers
+ * @param req - the HTTP request, must include lat and lng as query params
+ * @param res - the HTTP response
+ * @returns the profiles nearby (HTTP status code 200), else an error
+ * */
 export async function nearbyProfilesHandler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -79,6 +99,13 @@ export async function nearbyProfilesHandler(
     return res.status(200).json({ data: profiles });
 }
 
+/*
+ * @dev update a particular user's profile information
+ * @dev requires a valid session
+ * @param req - the HTTP request (must include a Profile object)
+ * @param res - the HTTP response
+ * @returns 'Profile updated' if successful (HTTP status code 200), else an error
+ * */
 export const updateHandler = async (
     req: NextApiRequest,
     res: NextApiResponse
@@ -104,6 +131,13 @@ export const updateHandler = async (
     }
 };
 
+/*
+ * @dev leave a review on a particular profile
+ * @dev requires a valid session
+ * @param req - the HTTP request (must include a SubmitReview object)
+ * @param res - the HTTP response
+ * @returns review added if successful (HTTP status code 200), else an error
+ * */
 export const reviewHandler = async (
     req: NextApiRequest,
     res: NextApiResponse
