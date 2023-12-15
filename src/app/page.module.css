@@ -5,6 +5,11 @@
     z-index: 2;
 }
 
+#donate p {
+    word-break: break-all;
+    white-space: normal;
+}
+
 #infoWindow {
     background-color: #fff;
     border: 1px solid #ccc;

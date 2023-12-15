@@ -71,6 +71,21 @@ export default function Page() {
                     allow you to check their reviews/ratings and avoid scammers
                     or those with poor reviews/ratings.
                 </p>
+                <br></br>
+                <h4>How can I donate to the project?</h4>
+                <div id={styles.donate}>
+                    <br></br>
+                    <img src={'lightning.jpeg'} alt={'lightning-qr'} />
+                    <p>
+                        Lightning:
+                        lnbc1pjhhsqepp5mjgwnvg0z53shm22hfe9us289lnaqkwv8rn2s0rtekg5vvj56xnqdqqcqzzsxqyz5vqsp5gu6vh9hyp94c7t3tkpqrp2r059t4vrw7ps78a4n0a2u52678c7yq9qyyssq7zcferywka50wcy75skjfrdrk930cuyx24rg55cwfuzxs49rc9c53mpz6zug5y2544pt8y9jflnq0ltlha26ed846jh0y7n4gm8jd3qqaautqa
+                    </p>
+                    <img src={'onchain.jpg'} alt={'onchain-qr'} />
+                    <p>
+                        On chain:
+                        bc1ptzvr93pn959xq4et6sqzpfnkk2args22ewv5u2th4ps7hshfaqrshe0xtp
+                    </p>
+                </div>
             </div>
             <Grid />
         </main>
