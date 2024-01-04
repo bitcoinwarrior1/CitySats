@@ -69,7 +69,9 @@ export const getProfilesByLocation = async (lat: number, lng: number) => {
         const profiles = [];
 
         for await (const d of cursor) {
-            profiles.push(d);
+            if (d.lat != 0 && d.lng != 0 && d.markerImagePath != '') {
+                profiles.push(d);
+            }
         }
 
         return { data: profiles };
