@@ -6,7 +6,6 @@ export default function Grid() {
             <a
                 href="/"
                 className={styles.card}
-                target="_blank"
                 rel="noopener noreferrer"
             >
                 <h2>Home</h2>
@@ -14,7 +13,6 @@ export default function Grid() {
             <a
                 href="/account"
                 className={styles.card}
-                target="_blank"
                 rel="noopener noreferrer"
             >
                 <h2>Account</h2>

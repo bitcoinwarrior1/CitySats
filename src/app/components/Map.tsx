@@ -8,7 +8,7 @@ import InfoWindow from './InfoWindow';
 const mapContainerStyle = {
     width: '100vw',
     minHeight: '100vw',
-    height: '520px',
+    height: '450px',
     marginTop: '1%',
     marginBottom: '1%'
 };
