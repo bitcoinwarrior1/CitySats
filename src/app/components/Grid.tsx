@@ -3,11 +3,7 @@ import styles from '../page.module.css';
 export default function Grid() {
     return (
         <div className={styles.grid}>
-            <a
-                href="/"
-                className={styles.card}
-                rel="noopener noreferrer"
-            >
+            <a href="/" className={styles.card} rel="noopener noreferrer">
                 <h2>Home</h2>
             </a>
             <a

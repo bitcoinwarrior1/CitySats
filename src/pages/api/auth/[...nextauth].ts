@@ -3,11 +3,13 @@ import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import RedditProvider from 'next-auth/providers/reddit';
+import { lightningProvider } from '../lnauth/[...lnauth]';
 import { saveProfileOnAuth } from '../../../app/db/users/profile';
 
 export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET ?? '',
     providers: [
+        lightningProvider,
         GithubProvider({
             clientId: process.env.GITHUB_ID ?? '',
             clientSecret: process.env.GITHUB_SECRET ?? ''
