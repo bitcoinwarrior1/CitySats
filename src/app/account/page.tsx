@@ -154,6 +154,11 @@ export default function Page() {
                     </p>
                     <br></br>
                     <p>
+                        Your contact information. Please note that users of the
+                        platform can only contact you via these methods.
+                    </p>
+                    <br></br>
+                    <p>
                         Telegram:
                         <input
                             type={'text'}
@@ -179,6 +184,12 @@ export default function Page() {
                             defaultValue={profileData.contact?.signal}
                             onChange={onChangeContact}
                         ></input>
+                    </p>
+                    <br></br>
+                    <p>
+                        Set your location here. Please note that without a
+                        location set, you cannot appear on the map. Locations
+                        include a randomly generated offset to enhance privacy.
                     </p>
                     <br></br>
                     <button id={'setLocation'} onClick={setLocation}>
@@ -218,7 +229,7 @@ export default function Page() {
                     <br></br>
                     <p>
                         Your bio. Please include details such as your buy/sell
-                        limits and availability.
+                        limits, prices and availability.
                     </p>
                     <br></br>
                     <textarea
