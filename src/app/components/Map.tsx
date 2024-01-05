@@ -6,8 +6,9 @@ import { emptyProfile } from '../lib/constants';
 import InfoWindow from './InfoWindow';
 
 const mapContainerStyle = {
-    width: '90vw',
-    height: '85vw',
+    width: '100vw',
+    minHeight: '100vw',
+    height: '520px',
     marginTop: '1%',
     marginBottom: '1%'
 };
