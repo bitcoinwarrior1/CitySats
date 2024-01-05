@@ -166,7 +166,7 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(25%, auto));
+    grid-template-columns: repeat(3, minmax(33.33%, auto));
     max-width: 100%;
     width: var(--max-width);
 }
@@ -254,15 +254,25 @@
 
 /* Mobile */
 @media (max-width: 700px) {
+
+    .main {
+        justify-content: revert;
+    }
+
     .content {
         padding: 4rem;
     }
 
     .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, minmax(33.33%, auto));
         margin-bottom: 120px;
-        max-width: 320px;
-        text-align: center;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
     }
 
     .card {
@@ -326,13 +336,6 @@
             rgb(var(--background-end-rgb)) 40%
         );
         z-index: 1;
-    }
-}
-
-/* Tablet and Smaller Desktop */
-@media (min-width: 701px) and (max-width: 1120px) {
-    .grid {
-        grid-template-columns: repeat(2, 50%);
     }
 }
 

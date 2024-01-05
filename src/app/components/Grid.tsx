@@ -4,15 +4,20 @@ export default function Grid() {
     return (
         <div className={styles.grid}>
             <a
+                href="/"
+                className={styles.card}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <h2>Home</h2>
+            </a>
+            <a
                 href="/account"
                 className={styles.card}
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <h2>
-                    My Account <span>-&gt;</span>
-                </h2>
-                <p>Go to your CitySats.com account.</p>
+                <h2>Account</h2>
             </a>
 
             <a
@@ -21,10 +26,7 @@ export default function Grid() {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <h2>
-                    FAQ <span>-&gt;</span>
-                </h2>
-                <p>Learn more about CitySats.com.</p>
+                <h2>About</h2>
             </a>
         </div>
     );
