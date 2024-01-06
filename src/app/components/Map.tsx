@@ -48,6 +48,9 @@ const Map = ({}) => {
                         lng: position.coords.longitude
                     });
                     getProfilesNearby();
+                },
+                () => {
+                    getProfilesNearby();
                 }
             );
         }
