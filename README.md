@@ -60,37 +60,37 @@ Anyone can create a profile by signing up.
 -   It circumvents banking restrictions on purchases of bitcoin
 
 ### API
+
 `/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`
 
-Query params:
-`lat` - the latitude of the area you wish to retrieve users from
+Query params: `lat` - the latitude of the area you wish to retrieve users from
 `lng` - the longitude of the area you wish to retrieve users from
 
 Output:
 
 ```json
 {
-  "data": [
-    {
-      "_id": "",
-      "contact": {
-        "telegram": "",
-        "email": "",
-        "wickr": "",
-        "signal": "",
-        "whatsapp": "",
-        "username": ""
-      },
-      "bio": "",
-      "buyer": true,
-      "lat": 0,
-      "lng": 0,
-      "markerImagePath": "buyerAndSeller.png",
-      "reviews": [],
-      "seller": true,
-      "username": ""
-    }
-  ]
+    "data": [
+        {
+            "_id": "",
+            "contact": {
+                "telegram": "",
+                "email": "",
+                "wickr": "",
+                "signal": "",
+                "whatsapp": "",
+                "username": ""
+            },
+            "bio": "",
+            "buyer": true,
+            "lat": 0,
+            "lng": 0,
+            "markerImagePath": "buyerAndSeller.png",
+            "reviews": [],
+            "seller": true,
+            "username": ""
+        }
+    ]
 }
 ```
 

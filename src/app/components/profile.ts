@@ -5,6 +5,7 @@ export interface Contact {
     email?: string;
     wickr?: string;
     signal?: string;
+    whatsapp?: string;
 }
 
 export interface AuthData {

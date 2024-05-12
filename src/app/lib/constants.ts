@@ -4,7 +4,8 @@ export const emptyContact: Contact = {
     telegram: '',
     email: '',
     wickr: '',
-    signal: ''
+    signal: '',
+    whatsapp: ''
 };
 
 export const emptyProfile: Profile = {

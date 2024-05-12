@@ -34,6 +34,17 @@ export default function InfoWindow(props: {
             <p>
                 {props.contact.signal ? `signal: ${props.contact.signal}` : ''}
             </p>
+            {props.contact.whatsapp ? (
+                <a href={`https://wa.me/${props.contact.whatsapp}`}>
+                    <img
+                        src={'/whatsapp.png'}
+                        alt={'whatsapp'}
+                        className={styles.contact}
+                    />
+                </a>
+            ) : (
+                ''
+            )}
             <p>{props.bio}</p>
             <div className={styles.rate}>
                 <input

@@ -185,6 +185,15 @@ export default function Page() {
                             onChange={onChangeContact}
                         ></input>
                     </p>
+                    <p>
+                        WhatsApp:
+                        <input
+                            type={'text'}
+                            id={'whatsapp'}
+                            defaultValue={profileData.contact?.whatsapp}
+                            onChange={onChangeContact}
+                        ></input>
+                    </p>
                     <br></br>
                     <p>
                         Set your location here. Please note that without a
