@@ -61,7 +61,7 @@ Anyone can create a profile by signing up.
 
 ### API
 
-`/api/user/nearbyProfiles?lat=${location.lat}&lng=${location.lng}`
+`/api/user/nearbyProfiles`
 
 Query params: `lat` - the latitude of the area you wish to retrieve users from
 `lng` - the longitude of the area you wish to retrieve users from
