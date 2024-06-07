@@ -5,10 +5,17 @@ import { Profile } from './profile';
 import { emptyProfile } from '../lib/constants';
 import InfoWindow from './InfoWindow';
 
-const mapContainerStyle = {
+const mapContainerStyleMobile = {
     width: '100vw',
     minHeight: '100vw',
     height: '450px',
+    marginTop: '1%',
+    marginBottom: '1%'
+};
+
+const mapContainerStyleDesktop = {
+    width: '85vw',
+    height: '45vw',
     marginTop: '1%',
     marginBottom: '1%'
 };
@@ -78,7 +85,7 @@ const Map = ({}) => {
                     apiKey={'AIzaSyAQWSnntCOZdRP6hAKv2wR9nLGwOv69BZ0'}
                     defaultCenter={location}
                     defaultZoom={13}
-                    style={mapContainerStyle}
+                    style={window.innerWidth < 1200 ? mapContainerStyleMobile : mapContainerStyleDesktop}
                     onChange={handleMapMove}
                 >
                     {profilesNearby.map((profile: Profile, index) => (
