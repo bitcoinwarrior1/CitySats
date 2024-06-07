@@ -19,7 +19,7 @@ const Map = ({}) => {
         lng: 0
     });
     const [loading, setLoading] = useState(true);
-    const [profilesNearby, setProfilesNearby] = useState(Array());
+    const [profilesNearby, setProfilesNearby] = useState([]);
     const [selectedProfile, setSelectedProfile] = useState(emptyProfile);
 
     const getProfilesNearby = () => {
