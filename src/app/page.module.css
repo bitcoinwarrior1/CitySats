@@ -176,8 +176,8 @@
     background: rgba(var(--card-rgb), 0);
     border: 1px solid rgba(var(--card-border-rgb), 0);
     transition:
-        background 200ms,
-        border 200ms;
+            background 200ms,
+            border 200ms;
 }
 
 .card span {
@@ -263,9 +263,22 @@
 
     .grid {
         grid-template-columns: repeat(3, minmax(33.33%, auto));
-        margin-bottom: 120px;
+        margin-bottom: 0; /* Remove bottom margin */
         max-width: 100%;
         width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff; /* Change as needed */
+        z-index: 1000; /* Ensure it's above other content */
+        padding: 10px 0; /* Optional: Adjust padding as needed */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+    }
+
+    .grid .card {
+        color: black; /* Explicitly set text color */
+        background-color: white; /* Explicitly set background color */
     }
 
     #map {
@@ -314,9 +327,9 @@
         border: none;
         border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
         background: linear-gradient(
-            to bottom,
-            rgba(var(--background-start-rgb), 1),
-            rgba(var(--callout-rgb), 0.5)
+                to bottom,
+                rgba(var(--background-start-rgb), 1),
+                rgba(var(--callout-rgb), 0.5)
         );
         background-clip: padding-box;
         backdrop-filter: blur(24px);
@@ -329,29 +342,28 @@
         padding: 2rem;
         height: 200px;
         background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgb(var(--background-end-rgb)) 40%
+                to bottom,
+                transparent 0%,
+                rgb(var(--background-end-rgb)) 40%
         );
         z-index: 1;
     }
-}
 
-@media (prefers-color-scheme: dark) {
-    .vercelLogo {
-        filter: invert(1);
+    /* Add these styles */
+    .grid {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: white; /* Set the desired background color */
+        text-align: center;
+        padding: 10px 0;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+        z-index: 1000; /* Ensure it's above other content */
     }
 
-    .logo {
-        filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-    }
-}
-
-@keyframes rotate {
-    from {
-        transform: rotate(360deg);
-    }
-    to {
-        transform: rotate(0deg);
+    .main {
+        padding-bottom: 60px; /* Ensure main content doesn't overlap the grid */
     }
 }

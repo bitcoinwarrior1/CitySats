@@ -4,23 +4,21 @@ export default function Grid() {
     return (
         <div className={styles.grid}>
             <a href="/" className={styles.card} rel="noopener noreferrer">
-                <h2>Home</h2>
+                <h3>Home</h3>
             </a>
             <a
                 href="/account"
                 className={styles.card}
                 rel="noopener noreferrer"
             >
-                <h2>Account</h2>
+                <h3>Account</h3>
             </a>
-
             <a
                 href="/faq"
                 className={styles.card}
-                target="_blank"
                 rel="noopener noreferrer"
             >
-                <h2>About</h2>
+                <h3>About</h3>
             </a>
         </div>
     );
