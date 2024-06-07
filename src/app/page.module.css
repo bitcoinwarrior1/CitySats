@@ -255,6 +255,7 @@
 @media (max-width: 700px) {
     .main {
         justify-content: revert;
+        margin-bottom: 100rem;
     }
 
     .content {
