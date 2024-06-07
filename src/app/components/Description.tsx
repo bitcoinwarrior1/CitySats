@@ -6,9 +6,7 @@ export default function Description() {
             <h1>
                 <a href={'/'}>CitySats.com</a>
             </h1>
-            <div id={styles.info}>
-                <h3>Buy/sell bitcoin anonymously, face to face & with cash</h3>
-            </div>
+            <h3>Buy & sell bitcoin face to face</h3>
         </div>
     );
 }
