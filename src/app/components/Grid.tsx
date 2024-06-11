@@ -13,11 +13,7 @@ export default function Grid() {
             >
                 <h3>Account</h3>
             </a>
-            <a
-                href="/faq"
-                className={styles.card}
-                rel="noopener noreferrer"
-            >
+            <a href="/faq" className={styles.card} rel="noopener noreferrer">
                 <h3>About</h3>
             </a>
         </div>

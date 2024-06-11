@@ -85,7 +85,11 @@ const Map = ({}) => {
                     apiKey={'AIzaSyAQWSnntCOZdRP6hAKv2wR9nLGwOv69BZ0'}
                     defaultCenter={location}
                     defaultZoom={13}
-                    style={window.innerWidth < 1200 ? mapContainerStyleMobile : mapContainerStyleDesktop}
+                    style={
+                        window.innerWidth < 1200
+                            ? mapContainerStyleMobile
+                            : mapContainerStyleDesktop
+                    }
                     onChange={handleMapMove}
                 >
                     {profilesNearby.map((profile: Profile, index) => (
