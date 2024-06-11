@@ -1,6 +1,6 @@
 import { Contact, Review, SubmitReview } from './profile';
 import styles from '../page.module.css';
-import { getStarRatingInfo } from '../lib/helpers';
+import { getRatingInfo } from '../lib/helpers';
 
 export default function InfoWindow(props: {
     username: string;
@@ -10,7 +10,7 @@ export default function InfoWindow(props: {
     position: { lat: number; lng: number };
     onClose: Function;
 }) {
-    const ratingInfo = getStarRatingInfo(props.reviews);
+    const ratingInfo = getRatingInfo(props.reviews);
     return (
         <div
             // @ts-ignore

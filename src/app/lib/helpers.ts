@@ -1,16 +1,16 @@
 import { Profile, Review } from '../components/profile';
 
-export const getStarRatingInfo = (reviews: Review[]) => {
+export const getRatingInfo = (reviews: Review[]) => {
     let total = 0;
     for (const review of reviews) {
         total += review?.star;
     }
 
-    let description = 'no reviews yet';
+    let description = 'No reviews yet.';
     if (reviews.length == 1) {
-        description = '1 review';
+        description = '1 review.';
     } else if (reviews.length > 1) {
-        description = `${reviews.length} reviews`;
+        description = `${reviews.length} reviews.`;
     }
 
     return {
@@ -18,6 +18,12 @@ export const getStarRatingInfo = (reviews: Review[]) => {
         numberOfReviews: reviews.length,
         description
     };
+};
+
+export const getRatingDescription = (reviews: Review[]) => {
+    const { average, numberOfReviews, description } = getRatingInfo(reviews);
+    if (description === 'No reviews yet.') return description;
+    return `${average} stars, ${numberOfReviews} reviews.`;
 };
 
 export const setMarkerImage = (profile: Profile) => {

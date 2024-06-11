@@ -7,7 +7,7 @@ import LoginBtn from '../components/LoginBtn';
 import { signOut, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { emptyProfile } from '../lib/constants';
-import { getStarRatingInfo } from '../lib/helpers';
+import { getRatingDescription, getRatingInfo } from '../lib/helpers';
 
 export default function Page() {
     const { data: session } = useSession();
@@ -209,13 +209,7 @@ export default function Page() {
                         id={'location'}
                     >{`lat: ${profileData.lat}, long: ${profileData.lng}`}</p>
                     <br></br>
-                    <p>
-                        Reviews:
-                        {' ' +
-                            JSON.stringify(
-                                getStarRatingInfo(profileData.reviews ?? [])
-                            )}
-                    </p>
+                    <p>{getRatingDescription(profileData.reviews ?? [])}</p>
                     <br></br>
                     <div>
                         <input
